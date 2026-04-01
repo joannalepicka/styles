@@ -16,11 +16,13 @@
     <updated>2026-03-17T00:00:00+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
+
   <locale xml:lang="en">
     <terms>
       <term name="page-range-delimiter">-</term>
     </terms>
   </locale>
+
   <macro name="author">
     <group suffix=".">
       <names variable="author">
@@ -32,20 +34,24 @@
       </names>
     </group>
   </macro>
+
   <macro name="editor">
     <names variable="editor">
       <name name-as-sort-order="all" sort-separator=" " delimiter-precedes-last="always" initialize-with="" delimiter=", "/>
       <label form="long" prefix=", " suffix="."/>
     </names>
   </macro>
+
   <macro name="title">
     <text variable="title"/>
   </macro>
+
   <macro name="year">
     <date variable="issued">
       <date-part name="year"/>
     </date>
   </macro>
+
   <macro name="journal">
     <group delimiter=" ">
       <text variable="container-title" form="short" strip-periods="true" suffix="."/>
@@ -53,6 +59,16 @@
       <text variable="volume"/>
     </group>
   </macro>
+
+  <!-- DOI macro -->
+  <macro name="doi">
+    <choose>
+      <if variable="DOI">
+        <text variable="DOI" prefix=" https://doi.org/"/>
+      </if>
+    </choose>
+  </macro>
+
   <citation>
     <sort>
       <key variable="citation-number"/>
@@ -64,18 +80,22 @@
       </group>
     </layout>
   </citation>
+
   <bibliography et-al-min="5" et-al-use-first="3" second-field-align="flush" entry-spacing="0">
     <layout suffix=".">
       <text variable="citation-number"/>
       <text macro="author" suffix=". "/>
       <text macro="title" suffix=". "/>
+
       <choose>
         <if type="article-journal">
           <group suffix=".">
             <text macro="journal"/>
             <text variable="page" prefix=": "/>
           </group>
+          <text macro="doi"/>
         </if>
+
         <else>
           <group suffix="." delimiter=" ">
             <choose>
@@ -88,8 +108,17 @@
             <text macro="year"/>
             <text variable="page"/>
           </group>
-          <text variable="URL" prefix=" "/>
+
+          <choose>
+            <if variable="DOI">
+              <text variable="DOI" prefix=" https://doi.org/"/>
+            </if>
+            <else-if variable="URL">
+              <text variable="URL" prefix=" "/>
+            </else-if>
+          </choose>
         </else>
+
       </choose>
     </layout>
   </bibliography>
